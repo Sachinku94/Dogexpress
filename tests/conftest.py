@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 import time
+import subprocess
 
 
 @pytest.fixture(scope="class")
@@ -31,3 +32,10 @@ def setup(request):
     request.cls.driver = driver
     yield
     driver.quit()
+
+
+# subprocess.run(["python", "-m", "pytest", "--alluredir=allure-results"], check=True)
+
+# # Serve the Allure report (opens in browser)
+# subprocess.run(["allure", "serve", "allure-results"], check=True)
+# C:\Users\<YourUsername>\scoop\apps\allure\current\bin

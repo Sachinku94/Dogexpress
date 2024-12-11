@@ -32,3 +32,25 @@ class HomePage(BaseClass):
             links.append(all_links)
         for li in links:
             self.driver.execute_script("window.open(arguments[0])", li)
+
+    def hover(self):
+        Ac = ActionChains(self.driver)
+        wait = WebDriverWait(self.driver, 20)
+        hover = "a.more-link:hover"
+        view_more = wait.until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, self.view_more))
+        )
+        for view in view_more:
+            log = self.getLogger()
+            Ac.move_to_element(view).context_click(view).perform()
+            hovercolor = self.driver.find_element(By.CSS_SELECTOR, hover)
+            hover_value = hovercolor.value_of_css_property("background-color")
+            log.info(hover_value)
+            assert hover_value == "rgba(119, 119, 119, 1)"
+
+        # script = '''
+        #             const element = arguments[0];
+        #             const style = window.getComputedStyle(element, '::after');
+        #             return style.getPropertyValue('color');  // Replace 'content' with desired property
+        #         '''
+        # pseudo_content = self.driver.execute_script(script, self.view_more)

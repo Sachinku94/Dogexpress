@@ -1,2 +1,2 @@
 allure serve <results-directory> (for publishing report)
- python -m pytest --allure-open-allure-report
+python -m pytest --alluredir=allure-results 

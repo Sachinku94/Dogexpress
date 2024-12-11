@@ -1,1 +1,0 @@
-[32mINFO    [0m test_HomePage:test_homepageviewmore.py:28 All links verified successfully

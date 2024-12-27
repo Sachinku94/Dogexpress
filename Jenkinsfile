@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name for the Docker image
         // Define volume mounts inside the stage to avoid any confusion with paths
-        DOCKER_VOLUMES = '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress/tests'
+        DOCKER_VOLUMES = '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/workspace/tests'
     }
 
     stages {

@@ -22,4 +22,5 @@ class Testone(BaseClass):
         log = self.getLogger()
         Homepage = HomePage(self.driver)
         Homepage.hover()
+        log.info(Homepage.hover())
         log.info("hover working fine")

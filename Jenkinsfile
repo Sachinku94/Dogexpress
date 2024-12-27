@@ -15,9 +15,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''
-                # Install required Python dependencies
-                pip install --upgrade pip
+                bat '''
+                REM Install required Python dependencies
+                python -m pip install --upgrade pip
                 pip install -r requirements.txt
                 '''
             }
@@ -37,7 +37,7 @@ pipeline {
                 script {
                     // Run the Docker image and execute tests
                     docker.image(env.DOCKER_IMAGE).inside {
-                        sh 'pytest --alluredir=allure-results'
+                        bat 'pytest --alluredir=allure-results'
                     }
                 }
             }
@@ -45,12 +45,10 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                script {
-                    allure([
-                        results: [[path: 'allure-results']],
-                        reportBuildPolicy: 'ALWAYS'
-                    ])
-                }
+                allure([
+                    results: [[path: 'allure-results']],
+                    reportBuildPolicy: 'ALWAYS'
+                ])
             }
         }
     }

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install dependencies
-RUN pip install --upgrade pip && pip install -r need.txt
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install Allure for reporting
 RUN apt-get update && apt-get install -y openjdk-11-jdk wget && \

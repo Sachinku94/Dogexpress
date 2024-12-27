@@ -11,7 +11,7 @@ COPY . .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install Allure for reporting
-RUN RUN apt-get update && apt-get install -y openjdk-17-jdk wget curl && \
+RUN apt-get update && apt-get install -y openjdk-17-jdk wget curl && \
     LATEST_URL=$(curl -s https://api.github.com/repos/allure-framework/allure2/releases/latest | grep "tarball_url" | cut -d '"' -f 4) && \
     wget -O allure-latest.tgz $LATEST_URL && \
     tar -xvzf allure-latest.tgz && \

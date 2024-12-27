@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name for the Docker image
+        args '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/workspace'
     }
 
     stages {

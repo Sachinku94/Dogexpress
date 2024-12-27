@@ -11,11 +11,13 @@ COPY . .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install Allure for reporting
-RUN apt-get update && apt-get install -y openjdk-17-jdk wget && \
-    wget https://github.com/allure-framework/allure2/releases/latest/download/allure-2.23.0.tgz && \
-    tar -xvzf allure-2.23.0.tgz && \
-    mv allure-2.23.0 /opt/allure && \
+RUN RUN apt-get update && apt-get install -y openjdk-17-jdk wget && \
+    LATEST_URL=$(curl -s https://api.github.com/repos/allure-framework/allure2/releases/latest | grep "tarball_url" | cut -d '"' -f 4) && \
+    wget -O allure-latest.tgz $LATEST_URL && \
+    tar -xvzf allure-latest.tgz && \
+    mv allure-* /opt/allure && \
     ln -s /opt/allure/bin/allure /usr/bin/allure
+
 
 # Run pytest with Allure
 CMD ["pytest", "--alluredir=allure-results"]

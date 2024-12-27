@@ -1,4 +1,0 @@
-allure serve <results-directory> (for publishing report)
-python -m pytest --alluredir=allure-results 
-pip freeze > requirements.txt
-virtualenv venv

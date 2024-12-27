@@ -11,7 +11,7 @@ COPY . .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install Allure for reporting
-RUN apt-get update && apt-get install -y openjdk-11-jdk wget && \
+RUN apt-get update && apt-get install -y openjdk-17-jdk wget && \
     wget https://github.com/allure-framework/allure2/releases/latest/download/allure-2.23.0.tgz && \
     tar -xvzf allure-2.23.0.tgz && \
     mv allure-2.23.0 /opt/allure && \

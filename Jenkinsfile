@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name for the Docker image
-        args '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/workspace/Dogexpress/tests'
+        // Define volume mounts inside the stage to avoid any confusion with paths
+        DOCKER_VOLUMES = '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/workspace'
     }
 
     stages {
@@ -37,7 +38,7 @@ pipeline {
             steps {
                 script {
                     // Run the Docker image and execute tests
-                    docker.image(env.DOCKER_IMAGE).inside {
+                    docker.image(env.DOCKER_IMAGE).inside(env.DOCKER_VOLUMES) {
                         bat 'pytest --alluredir=allure-results'
                     }
                 }

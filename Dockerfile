@@ -1,13 +1,11 @@
 # Use Python as the base image
-FROM python:3.9-slim
+FROM python:3.9-slim as builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy project files
-COPY . .
-
-# Install dependencies
+# Copy the requirements file and install dependencies
+COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install Allure for reporting
@@ -18,6 +16,17 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk wget curl && \
     tar -xvzf allure-latest.tgz --strip-components=1 -C /opt/allure && \
     ln -s /opt/allure/bin/allure /usr/bin/allure
 
+# Final stage
+FROM python:3.9-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy installed dependencies from the builder stage
+COPY --from=builder /app /app
+
+# Copy the rest of the project files
+COPY . .
 
 # Run pytest with Allure
 CMD ["pytest", "--alluredir=allure-results"]

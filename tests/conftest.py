@@ -35,13 +35,13 @@
 from selenium import webdriver
 from selenium.webdriver.edge.service import Service
 from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 import pytest
 from Config.config_reader import read_config
 
 @pytest.fixture(scope="class")
 def setup(request):
-    # Read the base URL from the configuration file
+    # Read base URL from config
     base_url = read_config("URL", "base_url")
 
     # Set up Edge options
@@ -52,7 +52,7 @@ def setup(request):
     edge_options.add_argument("--disable-dev-shm-usage")  # Resolve shared memory issues
 
     # Use WebDriverManager to install the correct version of EdgeDriver
-    driver_path = EdgeDriverManager(version="131.0.2903.112").install()
+    driver_path = EdgeChromiumDriverManager().install()
     service = Service(driver_path)
 
     # Start Edge WebDriver
@@ -63,5 +63,6 @@ def setup(request):
     request.cls.driver = driver
     yield
     driver.quit()
+
 
 

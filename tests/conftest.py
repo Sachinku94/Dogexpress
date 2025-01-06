@@ -11,7 +11,7 @@
 #     yield
 #     driver.quit()
 from selenium import webdriver
-from webdriver_manager.microsoft import EdgeDriverManager
+from webdriver_manager.chrome import ChromeDriverManager
 import pytest
 from Config.config_reader import read_config
 
@@ -21,7 +21,7 @@ def setup(request):
     base_url = read_config("URL", "base_url")
 
     # Use WebDriverManager to automatically handle the Edge driver download and installation
-    driver = webdriver.Edge(EdgeDriverManager().install())
+    driver = webdriver.Edge(ChromeDriverManager().install())
     driver.get(base_url)
     request.cls.driver = driver
     yield

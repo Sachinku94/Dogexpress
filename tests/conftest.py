@@ -53,7 +53,7 @@ def setup(request):
     chrome_options.add_argument("--disable-dev-shm-usage")  # Resolve shared memory issues
 
     # Use WebDriverManager with Service and Chrome Options
-    service = Service(ChromeDriverManager().install())
+    service = Service(ChromeDriverManager(version="131.0.6778.205").install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Open the base URL

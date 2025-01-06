@@ -28,7 +28,7 @@ pipeline {
                 script {
                     // Run the tests inside the Docker container
                     docker.image(env.DOCKER_IMAGE).inside(env.DOCKER_VOLUMES) {
-                        sh 'pytest --alluredir=allure-results'
+                        sh 'python -m pytest --alluredir=allure-results'
                     }
                 }
             }

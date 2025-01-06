@@ -25,4 +25,4 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 COPY --from=builder /app /app
 
 # Command to run pytest
-CMD ["pytest", "--alluredir=allure-results"]
+CMD ["python", "-m", "pytest", "--alluredir=allure-results"]

@@ -2,33 +2,22 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "dogexpress_tests:latest" // Name for the Docker image
-        // Define volume mounts inside the stage to avoid any confusion with paths
-        // DOCKER_VOLUMES = '-v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/workspace/tests'
+        DOCKER_IMAGE = "dogexpress_tests:latest" // Name of the Docker image
+        DOCKER_VOLUMES = '-v $WORKSPACE:/app'    // Bind workspace to /app in the container
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git
+                // Checkout the code from Git
                 git branch: 'main', url: 'https://github.com/Sachinku94/Dogexpress.git'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                bat '''
-                REM Install required Python dependencies
-                python -m pip install --upgrade pip
-                pip install -r requirements.txt
-                '''
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build Docker image for the test environment
+                    // Build the Docker image
                     docker.build(env.DOCKER_IMAGE)
                 }
             }
@@ -37,9 +26,9 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run the Docker image and execute tests
+                    // Run the tests inside the Docker container
                     docker.image(env.DOCKER_IMAGE).inside(env.DOCKER_VOLUMES) {
-                        bat 'pytest --alluredir=allure-results'
+                        sh 'pytest --alluredir=allure-results'
                     }
                 }
             }
@@ -47,24 +36,29 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
-                allure([
-                    results: [[path: 'allure-results']],
-                    reportBuildPolicy: 'ALWAYS'
-                ])
+                script {
+                    // Generate the Allure report using the Jenkins plugin
+                    allure([
+                        results: [[path: 'allure-results']],
+                        reportBuildPolicy: 'ALWAYS'
+                    ])
+                }
             }
         }
     }
 
     post {
         always {
-            // Archive test results
-            archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
+            steps {
+                // Archive test results
+                archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
 
-            // Publish Allure report
-            allure([
-                results: [[path: 'allure-results']],
-                reportBuildPolicy: 'ALWAYS'
-            ])
+                // Publish Allure report
+                allure([
+                    results: [[path: 'allure-results']],
+                    reportBuildPolicy: 'ALWAYS'
+                ])
+            }
         }
     }
 }

@@ -33,47 +33,42 @@
 
 
 from selenium import webdriver
-from selenium.webdriver.edge.service import Service
-from selenium.webdriver.edge.options import Options
-from webdriver_manager.microsoft import EdgeChromiumDriverManager
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import pytest
 from Config.config_reader import read_config
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 @pytest.fixture(scope="class")
 def setup(request):
     # Read base URL from config
     base_url = read_config("URL", "base_url")
-
-    # Set up Edge options
-    edge_options = Options()
-    edge_options.add_argument("--headless")  # Run headlessly for CI environments
-    edge_options.add_argument("--disable-gpu")  # Disable GPU rendering
-    edge_options.add_argument("--no-sandbox")  # Prevent sandboxing issues
-    edge_options.add_argument("--disable-dev-shm-usage")  # Resolve shared memory issues
-
-    # Remote WebDriver configuration (Selenium Grid)
-    selenium_grid_url = "http://your-selenium-grid-hub-url:4444/wd/hub"  # Replace with your Selenium Grid Hub URL
-
-    # Configure capabilities to run tests on Edge
-    capabilities = DesiredCapabilities.EDGE.copy()
-    capabilities['platform'] = "LINUX"  # You can set the platform as required
-    capabilities['browserName'] = 'MicrosoftEdge'
-    capabilities['version'] = "131.0.2903.112"  # Specify Edge version if needed
-
-    # Connect to Selenium Grid using Remote WebDriver
-    driver = webdriver.Remote(
-        command_executor=selenium_grid_url,
-        desired_capabilities=capabilities,
-        options=edge_options
-    )
     
+    # URL of the Selenium Grid Hub
+    selenium_grid_url = "http://localhost:4444/wd/hub"  # Change this if using a remote Selenium Grid
+    
+    # Set up desired capabilities for Edge or Chrome
+    # For Edge (change to DesiredCapabilities.CHROME for Chrome)
+    capabilities = DesiredCapabilities.EDGE.copy()
+    capabilities['platform'] = "LINUX"  # Or you can set your desired platform (e.g., Windows)
+
+    # Set up the WebDriver to connect to the remote Selenium Grid
+    driver = webdriver.Remote(
+        command_executor=selenium_grid_url,  # Grid URL
+        desired_capabilities=capabilities     # Desired capabilities (Edge or Chrome)
+    )
+
+    # Navigate to the base URL
     driver.get(base_url)
 
     # Attach driver to the test class
     request.cls.driver = driver
+    
+    # Yield to run tests
     yield
+    
+    # Quit the driver after tests complete
     driver.quit()
+
+
 
 
 

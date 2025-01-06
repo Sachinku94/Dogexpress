@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name of the Docker image
-        SELENIUM_GRID_URL = "http://selenium-grid-hub:4444/wd/hub"  // Replace with actual Selenium Grid Hub URL
+        SELENIUM_GRID_URL = "http://localhost:4444/wd/hub"  // Replace with actual Selenium Grid Hub URL
     }
 
     stages {

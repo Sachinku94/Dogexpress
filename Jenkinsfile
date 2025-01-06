@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name of the Docker image
-        DOCKER_VOLUMES = '-v $WORKSPACE:/app'    // Bind workspace to /app in the container
+        // DOCKER_VOLUMES = '-v $WORKSPACE:/app'    // Bind workspace to /app in the container
     }
 
     stages {

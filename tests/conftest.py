@@ -33,9 +33,9 @@
 
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.edge.service import Service
+from selenium.webdriver.edge.options import Options
+from webdriver_manager.microsoft import EdgeDriverManager
 import pytest
 from Config.config_reader import read_config
 
@@ -44,28 +44,24 @@ def setup(request):
     # Read the base URL from the configuration file
     base_url = read_config("URL", "base_url")
 
-    # Configure Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU rendering
-    chrome_options.add_argument("--no-sandbox")  # Prevent sandboxing issues
-    chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent shared memory issues
+    # Set up Edge options
+    edge_options = Options()
+    edge_options.add_argument("--headless")  # Run headlessly for CI environments
+    edge_options.add_argument("--disable-gpu")  # Disable GPU rendering
+    edge_options.add_argument("--no-sandbox")  # Prevent sandboxing issues
+    edge_options.add_argument("--disable-dev-shm-usage")  # Resolve shared memory issues
 
-    # Install the correct version of ChromeDriver using WebDriverManager
-    driver_path = ChromeDriverManager(driver_version="131.0.6778.205").install()
+    # Use WebDriverManager to install the correct version of EdgeDriver
+    driver_path = EdgeDriverManager(version="131.0.2903.112").install()
     service = Service(driver_path)
 
-    # Initialize WebDriver with the correct service and options
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-
-    # Open the base URL
+    # Start Edge WebDriver
+    driver = webdriver.Edge(service=service, options=edge_options)
     driver.get(base_url)
 
-    # Attach the driver to the test class
+    # Attach driver to the test class
     request.cls.driver = driver
-
     yield
-
-    # Quit the driver after tests are done
     driver.quit()
+
 

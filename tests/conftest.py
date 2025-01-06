@@ -36,7 +36,8 @@ from selenium import webdriver
 @pytest.fixture(scope="class")
 def setup(request):
     base_url = read_config("URL", "base_url")
-    driver = webdriver.Chrome()
+    selenium_grid_url = read_config("URL", "selenium_grid_url")
+    driver = webdriver.Remote(command_executor=selenium_grid_url)
     driver.get(base_url)
     # Add other setup steps here...
     request.cls.driver = driver

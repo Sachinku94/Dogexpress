@@ -10,6 +10,9 @@ COPY requirements.txt /app/
 # Install dependencies
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Install Allure
+RUN apt-get update && apt-get install -y allure
+
 # Copy the entire project into the container
 COPY . .
 

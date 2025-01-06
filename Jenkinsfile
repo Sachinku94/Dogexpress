@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name of the Docker image
-        // DOCKER_VOLUMES = '-v $WORKSPACE:/app'    // Bind workspace to /app in the container
     }
 
     stages {
@@ -18,7 +17,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build(env.DOCKER_IMAGE)
+                    docker.build(DOCKER_IMAGE)
                 }
             }
         }
@@ -26,10 +25,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run the tests inside the Docker container
-                    docker.image(env.DOCKER_IMAGE).inside(env.DOCKER_VOLUMES) {
-                        sh 'python -m pytest --alluredir=allure-results'
-                    }
+                    // Run the tests inside the Docker container using docker run
+                    bat "docker run --rm ${DOCKER_IMAGE} python -m pytest --alluredir=allure-results"
                 }
             }
         }

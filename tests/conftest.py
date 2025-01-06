@@ -31,29 +31,16 @@
 from Config.config_reader import read_config
 import pytest
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from selenium.webdriver.chrome.options import Options
 
 
 @pytest.fixture(scope="class")
 def setup(request):
-    # Read configurations for URL and Selenium Grid URL
     base_url = read_config("URL", "base_url")
-    selenium_grid_url = read_config("URL", "selenium_grid_url")
-
-    # Set up desired capabilities for the browser (can be customized for other browsers like Chrome, Edge, etc.)
-    capabilities = DesiredCapabilities.CHROME.copy()
-
-    # Create a remote WebDriver instance
-    driver = webdriver.Remote(
-        command_executor=selenium_grid_url, desired_capabilities=capabilities
-    )
-
+    chrome_options = Options()
+    driver = webdriver.Chrome(options=chrome_options)
     driver.get(base_url)
-
-    # Set the driver as an attribute of the test class
+    # Add other setup steps here...
     request.cls.driver = driver
-
     yield
-
-    # Clean up after the test class
     driver.quit()

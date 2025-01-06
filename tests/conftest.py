@@ -25,7 +25,7 @@ def setup(request):
     base_url = read_config("URL", "base_url")
 
     # Use WebDriverManager to automatically handle the Edge driver download and installation
-    driver = webdriver.Chrome(ChromeDriverManager().install(version="131.0.6778.205"))
+    driver = webdriver.Chrome(ChromeDriverManager(driver_version="131.0.6778.205").install())
     driver.get(base_url)
     request.cls.driver = driver
     yield

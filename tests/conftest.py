@@ -20,13 +20,12 @@ def setup(request):
     chrome_options.add_argument("--disable-dev-shm-usage")  # Optional: Resolve shared memory issues
     
     # Set desired capabilities for Chrome
-    capabilities = DesiredCapabilities.CHROME.copy()
-    capabilities['platform'] = "LINUX"  # Or you can set your desired platform (e.g., Windows)
+    # capabilities = DesiredCapabilities.CHROME.copy()
+    # capabilities['platform'] = "LINUX"  # Or you can set your desired platform (e.g., Windows)
     
     # Connect to the Selenium Grid using the Remote WebDriver
     driver = webdriver.Remote(
         command_executor=selenium_grid_url,  # Grid URL
-        desired_capabilities=capabilities,   # Desired capabilities for Chrome
         options=chrome_options  # Pass the browser options
     )
     

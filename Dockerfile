@@ -10,9 +10,7 @@ WORKDIR /app
 # Install dependencies
 
 
-RUN apt-get install -y allure
 
-# Copy the entire project into the container
 COPY . .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 # Final stage

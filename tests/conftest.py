@@ -11,6 +11,7 @@ def setup(request):
     # Read base URL from config
     CHROMEDRIVER_VERSION = "131.0.6778.205"
     path = ChromeDriverManager()
+    print(path)
     base_url = read_config("URL", "base_url")
 
     # Initialize Chrome options

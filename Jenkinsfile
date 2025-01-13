@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "dogexpress_tests:latest" // Name of the Docker image
-        SELENIUM_GRID_URL = "http://localhost:4444/wd/hub"  // Replace with actual Selenium Grid Hub URL
     }
 
     stages {
@@ -26,10 +25,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    // Run the Docker container and pass the Selenium Grid URL
-                    bat """
-                    docker run --rm -e SELENIUM_GRID_URL=${SELENIUM_GRID_URL} -v C:/ProgramData/Jenkins/.jenkins/workspace/Dogexpress:/app -w /app ${DOCKER_IMAGE} python -m pytest
-                    """
+                    // Run the Docker container and execute tests
+                    bat "docker run --rm ${DOCKER_IMAGE} python -m pytest"
                 }
             }
         }

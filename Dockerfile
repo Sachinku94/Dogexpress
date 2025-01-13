@@ -8,13 +8,13 @@ WORKDIR /app
 
 
 # Install dependencies
-RUN pip install --upgrade pip && pip install -r requirements.txt
+
 
 RUN apt-get install -y allure
 
 # Copy the entire project into the container
 COPY . .
-
+RUN pip install --upgrade pip && pip install -r requirements.txt
 # Final stage
 FROM python:3.9-slim
 

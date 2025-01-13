@@ -10,13 +10,13 @@ from Config.config_reader import read_config
 def setup(request):
     # Read base URL from config
     CHROMEDRIVER_VERSION = "131.0.6778.205"
-    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
+    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION)
     base_url = read_config("URL", "base_url")
 
     # Initialize Chrome options
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")
-    chrome_options.add_argument("--headless")  # Maximize the window on start
+    # Maximize the window on start
     # Disable extensions
 
     # Setup Service object using the chromedriver path from ChromeDriverManager

@@ -15,7 +15,9 @@ def setup(request):
 
     # Initialize Chrome options
     chrome_options = Options()
-    chrome_options.add_argument("--start-maximized")  # Maximize the window on start
+    chrome_options.add_argument(
+        "--start-maximized", "--headless"
+    )  # Maximize the window on start
     # Disable extensions
 
     # Setup Service object using the chromedriver path from ChromeDriverManager

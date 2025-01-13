@@ -21,8 +21,6 @@ def setup(request):
 
     # Setup Service object using the chromedriver path from ChromeDriverManager
     service = Service(path)
-    service.log_path = "/tmp/chromedriver.log"  # Specify a log path for detailed logs
-    service.start()
 
     # Initialize the driver with the service and options
     driver = webdriver.Chrome(service=service, options=chrome_options)

@@ -15,7 +15,7 @@ COPY . .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 # Pre-download the specific version of ChromeDriver during the build
 RUN python -c "from webdriver_manager.chrome import ChromeDriverManager; \
-    ChromeDriverManager(driver_version='131.0.6778.205').install()"
+    ChromeDriverManager(driver_version='131.0.6778.265').install()"
 # Final stage
 FROM python:3.9-slim
 

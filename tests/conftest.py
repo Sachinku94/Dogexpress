@@ -10,7 +10,7 @@ from Config.config_reader import read_config
 def setup(request):
     # Read base URL from config
     CHROMEDRIVER_VERSION = "131.0.6778.205"
-    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION)
+    path = ChromeDriverManager()
     base_url = read_config("URL", "base_url")
 
     # Initialize Chrome options

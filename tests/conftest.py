@@ -47,7 +47,7 @@ def setup(request):
     # Read base URL and Selenium Grid Hub URL from config
     base_url = read_config("URL", "base_url")
     remote_url = read_config(
-        "SELENIUM_GRID", "hub_url"
+        "SELENIUM_GRID", "selenium_grid_url"
     )  # Replace with your Selenium Grid URL
 
     # Initialize Chrome options

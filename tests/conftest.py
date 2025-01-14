@@ -2,12 +2,14 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from Config.config_reader import read_config
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 @pytest.fixture(scope="class")
 def setup(request):
     # Read base URL from config
     base_url = read_config("URL", "base_url")
+    CHROMEDRIVER_VERSION = "131.0.6778.205"
 
     # Initialize Chrome options
     chrome_options = Options()
@@ -28,7 +30,10 @@ def setup(request):
     # chrome_options.add_argument("--headless")  # Run browser in headless mode
 
     # Initialize the Chrome WebDriver
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(
+        ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install,
+        options=chrome_options,
+    )
 
     # Open the base URL
     driver.get(base_url)

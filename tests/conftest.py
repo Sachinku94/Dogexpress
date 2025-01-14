@@ -61,19 +61,9 @@ def setup(request):
     )  # Add this if running in headless mode is required
 
     # Desired capabilities (optional, for remote browser specifics)
-    capabilities = {
-        "browserName": "chrome",
-        "browserVersion": "latest",  # You can specify specific versions as well
-        "enableVNC": True,  # For enabling visual feedback in some Selenium Grid setups
-        "enableVideo": False,  # Disable video recording if not needed
-    }
 
     # Initialize the Remote WebDriver
-    driver = webdriver.Remote(
-        command_executor=remote_url,
-        options=chrome_options,
-        desired_capabilities=capabilities,
-    )
+    driver = webdriver.Remote(command_executor=remote_url, options=chrome_options)
 
     # Open the base URL in the browser
     driver.get(base_url)

@@ -10,7 +10,7 @@ import os
 @pytest.fixture(scope="class")
 def setup(request):
 
-    CHROMEDRIVER_VERSION = "131.0.6778.205"
+    CHROMEDRIVER_VERSION = "132.0.6834.111"
     base_url = read_config("URL", "base_url")
 
     os.environ["WDM_LOG_LEVEL"] = "0"

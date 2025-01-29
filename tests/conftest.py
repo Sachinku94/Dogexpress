@@ -4,49 +4,35 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from Config.config_reader import read_config
-import os
 
 
 @pytest.fixture(scope="class")
 def setup(request):
-
     # Read base URL from config
-    CHROMEDRIVER_VERSION = "132.0.6834.111"
     base_url = read_config("URL", "base_url")
 
-    # Ensure necessary environment variables are set
-    os.environ["WDM_LOG_LEVEL"] = "0"  # Suppress webdriver-manager logs
-    os.environ["WDM_LOCAL"] = "1"  # Use local cache for chromedriver
-
-    # Install ChromeDriver using webdriver-manager
-    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
-
-    # Initialize Chrome options
+    # Set up Chrome options for headless execution in Docker
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Run in headless mode for Jenkins
+    chrome_options.add_argument("--headless")  # Required for running in Docker
     chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
     chrome_options.add_argument(
         "--disable-dev-shm-usage"
-    )  # Overcome shared memory issues
+    )  # Overcome memory limitations
+    chrome_options.add_argument("--disable-gpu")  # Disable GPU rendering
     chrome_options.add_argument(
-        "--disable-gpu"
-    )  # Disable GPU for headless environments
-    chrome_options.add_argument("--window-size=1920,1080")  # Set default window size
+        "--window-size=1920,1080"
+    )  # Ensure consistent resolution
 
-    # Setup Service object using the chromedriver path from ChromeDriverManager
-    service = Service(path)
-
-    # Initialize the driver with the service and options
+    # Initialize WebDriver
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
-    # Open the base URL in the browser
+    # Open base URL
     driver.get(base_url)
 
-    # Attach the driver to the test class (so tests can access it)
+    # Attach driver to test class
     request.cls.driver = driver
 
-    # Yield the driver to run tests
-    yield driver
+    yield driver  # Provide driver instance for tests
 
-    # Quit the driver after tests complete
-    driver.quit()
+    driver.quit()  # Cleanup after tests

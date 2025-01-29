@@ -9,22 +9,24 @@ from Config.config_reader import read_config
 @pytest.fixture(scope="class")
 def setup(request):
     # Read base URL from config
+    CHROMEDRIVER_VERSION = "131.0.6778.205"
+    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
     base_url = read_config("URL", "base_url")
 
     # Set up Chrome options for headless execution in Docker
     chrome_options = Options()
-    chrome_options.add_argument("--headless")  # Required for running in Docker
-    chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
-    chrome_options.add_argument(
-        "--disable-dev-shm-usage"
-    )  # Overcome memory limitations
-    chrome_options.add_argument("--disable-gpu")  # Disable GPU rendering
-    chrome_options.add_argument(
-        "--window-size=1920,1080"
-    )  # Ensure consistent resolution
+    chrome_options.add_argument("--start-maximized")  # Required for running in Docker
+    # chrome_options.add_argument("--no-sandbox")  # Bypass OS security model
+    # chrome_options.add_argument(
+    #     "--disable-dev-shm-usage"
+    # )  # Overcome memory limitations
+    # chrome_options.add_argument("--disable-gpu")  # Disable GPU rendering
+    # chrome_options.add_argument(
+    #     "--window-size=1920,1080"
+    # )  # Ensure consistent resolution
 
     # Initialize WebDriver
-    service = Service(ChromeDriverManager().install())
+    service = Service(path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Open base URL

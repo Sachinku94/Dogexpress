@@ -4,13 +4,27 @@ FROM python:3.9-slim
 # Set the working directory
 WORKDIR /app
 
-# Install required system dependencies
+# Install system dependencies for Chrome
 RUN apt-get update && apt-get install -y \
     wget \
-    unzip \
     curl \
+    unzip \
+    xvfb \
     chromium \
     chromium-driver \
+    fonts-liberation \
+    libasound2 \
+    libnspr4 \
+    libnss3 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxdamage1 \
+    libxfixes3 \
+    libxi6 \
+    libxrandr2 \
+    libxrender1 \
+    libxtst6 \
     --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
 

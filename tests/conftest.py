@@ -10,7 +10,9 @@ from Config.config_reader import read_config
 def setup(request):
     # Read base URL from config
     base_url = read_config("URL", "base_url")
+    CHROMEDRIVER_VERSION = "132.0.6834.110"
 
+    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
     # Set up Chrome options for headless execution in Docker
     chrome_options = Options()
     chrome_options.add_argument("--start-maximized")  # Required for running in Docker
@@ -24,7 +26,7 @@ def setup(request):
     # )  # Ensure consistent resolution
 
     # Initialize WebDriver
-    service = Service(ChromeDriverManager().install())
+    service = Service(path)
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Open base URL

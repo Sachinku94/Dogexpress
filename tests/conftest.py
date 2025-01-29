@@ -9,8 +9,6 @@ from Config.config_reader import read_config
 @pytest.fixture(scope="class")
 def setup(request):
     # Read base URL from config
-    CHROMEDRIVER_VERSION = "131.0.6778.205"
-    path = ChromeDriverManager(driver_version=CHROMEDRIVER_VERSION).install()
     base_url = read_config("URL", "base_url")
 
     # Set up Chrome options for headless execution in Docker
@@ -26,7 +24,7 @@ def setup(request):
     # )  # Ensure consistent resolution
 
     # Initialize WebDriver
-    service = Service(path)
+    service = Service(ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service, options=chrome_options)
 
     # Open base URL

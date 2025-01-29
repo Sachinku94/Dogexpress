@@ -63,7 +63,7 @@ COPY --from=builder /app /app
 # Environment variables for WebDriver Manager
 ENV WDM_LOG_LEVEL=0
 ENV WDM_LOCAL=True
-ENV CHROMEDRIVER_VERSION=131.0.6778.205
+ENV CHROMEDRIVER_VERSION=132.0.6834.111
 
 # Command to run pytest
 CMD ["python", "-m", "pytest", "--alluredir=allure-results"]
